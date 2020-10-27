@@ -33,6 +33,7 @@ namespace API
             }
             );
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -49,10 +50,16 @@ namespace API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
-            app.UseHttpsRedirection();
+            //cuando pase a producción debo descomentar eso, para development lo comento porque el https falla por el certificado
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+            
+            //basicamente puede hacer cualquiera de esas acciones si viene de esa dir, me falla acá asique deshabilito el cors por ahora. tampoco anda
+            //.AllowAnyOrigin()); esto es si en algun momento me rompe la pija el cors
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
