@@ -1,5 +1,8 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { HomeComponent } from './home/home.component';
 import { ListsComponent } from './lists/lists.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
@@ -20,8 +23,10 @@ const routes: Routes = [
     ]
   },
   {path: "members",component: MemberListComponent,canActivate:[AuthGuard]},// esta es una manera, con esto proteges este solo
-
-  {path: "**",component: HomeComponent,pathMatch: "full"} 
+  {path:"errors", component: TestErrorsComponent},
+  {path:"not-found", component: NotFoundComponent},
+  {path:"server-error", component: ServerErrorComponent},
+  {path: "**",component: NotFoundComponent,pathMatch: "full"} 
   //wildard, si flasho lo mandas a home, es necesario el path match para que matchee con toda la url
   //(basicamente lo necesitas para la ruta default)
 ]
