@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { observable, ReplaySubject } from 'rxjs';
 import { map } from "rxjs/operators";
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  baseUlr = "http://localhost:5000/api/"
+  baseUlr = environment.apiUrl;
   private currentUserSource = new ReplaySubject<User>(1) //basicamente es un buffer y el valor es cuantos para atras queres almacenar
   //la convencion que termine con $ es para los observables
   currentUser$ = this.currentUserSource.asObservable();

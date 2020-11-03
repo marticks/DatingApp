@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Data;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using API.MIddleware;
 using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +38,7 @@ namespace API
         {
 
             services.AddApplicationServices(_config );
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly); //hay que decirle donde estan los profiles
             services.AddControllers();
             services.AddCors();
             services.AddSwaggerGen(c =>
