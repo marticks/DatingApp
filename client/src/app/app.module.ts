@@ -20,6 +20,7 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,8 +45,9 @@ import { MemberCardComponent } from './members/member-card/member-card.component
     SharedModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS,useClass: ErrorInterceptor,multi:true} 
+    {provide: HTTP_INTERCEPTORS,useClass: ErrorInterceptor,multi:true},
     // el multi es para que no sobrescriba los que vienen con angular con este sino que lo agregue
+    {provide: HTTP_INTERCEPTORS,useClass: JwtInterceptor, multi:true}
   ],
   //basicamente agregas los interceptores a un arreglo en el app module para que los use
   
