@@ -17,6 +17,9 @@ namespace API.Helpers
             ,opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge())); // con esto puedo traerme ciertas cosas de la tabla y no todo
             
             CreateMap<Photo, PhotoDTO>();
+
+            CreateMap<MemberUpdateDTO, AppUser>();
+
         }
     }
 }

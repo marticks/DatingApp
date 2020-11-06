@@ -21,6 +21,9 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     TestErrorsComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    MemberCardComponent
+    MemberCardComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -42,12 +46,14 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS,useClass: ErrorInterceptor,multi:true},
     // el multi es para que no sobrescriba los que vienen con angular con este sino que lo agregue
-    {provide: HTTP_INTERCEPTORS,useClass: JwtInterceptor, multi:true}
+    {provide: HTTP_INTERCEPTORS,useClass: JwtInterceptor, multi:true},
+    {provide: HTTP_INTERCEPTORS,useClass: LoadingInterceptor, multi:true}
   ],
   //basicamente agregas los interceptores a un arreglo en el app module para que los use
   
