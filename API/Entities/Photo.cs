@@ -14,7 +14,7 @@ namespace API.Entities
 
         public bool IsMain { get; set; }
 
-        public string PublicId { get; set; }
+        public string PublicId { get; set; } // este es el Id de cloudinary
 
         public AppUser AppUser { get; set; }
 

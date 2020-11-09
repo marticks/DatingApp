@@ -37,7 +37,15 @@ export class MembersService {
         this.members[index] = member
       }
     ))
-
-
   }
+
+
+  SetMainPhoto(photoId: number){
+    return this.http.put(this.baseUrl + "users/set-main-photo/" + photoId,{}) //como es un put necesitas mandar un body, asique lo mandas vacío
+  }
+
+  DeletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + "users/delete-photo/" + photoId);
+  }
+
 }

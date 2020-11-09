@@ -4,6 +4,7 @@
    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
    "version": "0.2.0",
    "configurations": [
+
         {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
@@ -32,14 +33,5 @@
             "request": "attach",
             "processId": "${command:pickProcess}"
         },
-
-        {
-            "type":"chrome",
-            "runtimeExecutable": "chromium-browser",
-            "request": "launch",
-            "name":"launch chrome against localhost",
-            "url":"http://localhost:4200",
-            "webRoot": "${workspaceFolder}"
-        }
     ]
 }
