@@ -15,11 +15,12 @@
                 </div>
                 <div>
                     <strong>Last active: </strong>
-                    <p>{{member.lastActive}}</p>
+                    <p>{{member.lastActive | timeago}}</p>
                 </div>
                 <div>
                     <strong>Member since: </strong>
-                    <p>{{member.created}}</p>
+                    <p>{{member.created | date: 'longDate'}}</p> 
+                    <!--aca podes usar la date que te pinte que lo muestra distinto, tambien puede ser algo tipo dd mmm yyyy-->
                 </div>
             </div>
             <div class="card-footer">
