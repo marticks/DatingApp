@@ -17,7 +17,7 @@ export class MembersService {
   members: Member[] = [] // el agregado de esto creo que es para no tenes que pegarle devuelta al endpoint si ya tenes la data
   memberCache = new Map()
   userParams: UserParams
-  user:User
+  user: User
 
 
   //tener cuidado de no inyectar el member service en el account service para no tener referencias circulares!
@@ -26,25 +26,23 @@ export class MembersService {
       this.user = user;
       this.userParams = new UserParams(user);
     })
-   }
+  }
 
-   getUserParams(){
-     return this.userParams;
-   }
+  getUserParams() {
+    return this.userParams;
+  }
 
-   setUserParams(params: UserParams){
+  setUserParams(params: UserParams) {
     this.userParams = params;
-   }
+  }
 
-   resetUserParams(){
-     this.userParams = new UserParams(this.user);
-     return this.userParams;
-   }
+  resetUserParams() {
+    this.userParams = new UserParams(this.user);
+    return this.userParams;
+  }
 
   getMembers(userParams: UserParams) {
-
     var response = this.memberCache.get(Object.values(userParams).join('-'))
-
     if (response) {
       return of(response)
     }
@@ -56,25 +54,25 @@ export class MembersService {
     params = params.append('orderBy', userParams.orderBy);
 
     return this.getPaginatedResult<Member[]>(this.baseUrl + "users", params)
-    .pipe(map(response => {
-      this.memberCache.set(Object.values(userParams).join('-'),response)
-      return response
-    })
-    )
+      .pipe(map(response => {
+        this.memberCache.set(Object.values(userParams).join('-'), response)
+        return response
+      })
+      )
   }
 
 
   getMember(username: string) {
-    const member = [...this.memberCache.values()].reduce((arr, elem) => {
-      arr.concat(elem.result)},[])
-      .find((member:Member) => member.username === username )
-      //basicamente el reduce aplica la funcion que le pases a cada elemento del arreglo, 
-      //entonces a cada uno lo coloco en un arreglo nuevo,
-      //para tener un solo arreglo de elementos y no un arreglo de arreglos,el arr vacio es el valor inicial
-      
-      if(member){
-        return of(member);
-      }
+    const member = [...this.memberCache.values()] //los 3 puntitos son un operador spread y permiten acceder a los componentes del arreglo
+      .reduce((arr, elem) => arr.concat(elem.result), [])
+      .find((member: Member) => member.username === username)
+    //basicamente el reduce aplica la funcion que le pases a cada elemento del arreglo, 
+    //entonces a cada uno lo coloco en un arreglo nuevo,
+    //para tener un solo arreglo de elementos y no un arreglo de arreglos,el arr vacio es el valor inicial
+
+    if (member) {
+      return of(member);
+    }
 
     return this.http.get<Member>(this.baseUrl + "users/" + username)
   }
@@ -96,6 +94,20 @@ export class MembersService {
   DeletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + "users/delete-photo/" + photoId);
   }
+
+  addLike(username:string){
+    return this.http.post(this.baseUrl + "likes/" + username,{}) //el body vacio es porque el post lo requiere
+  }
+
+  getLikes(predicate:string,pageNumber:number,pageSize:number) // acá podría crear un objeto conteniendo los 3 paramentros
+  {
+    let params = this.getPaginationHeaders(pageNumber,pageSize);
+    params = params.append("predicate",predicate);
+    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + "likes" ,params);
+
+    //método viejo return this.http.get<Partial<Member[]>>(this.baseUrl + "likes?predicate=" + predicate ) //parece que podría usar http params, capaz mas adelante los agrega
+  }
+
 
   private getPaginatedResult<T>(url, params) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>()

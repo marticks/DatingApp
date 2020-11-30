@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
 {
-    //para que la tabla se llame asi y no photo(hay quehacer esto porque esta clase no tiene dbset porque no te interesa 
+    //para que la tabla se llame asi y no photo(hay que hacer esto porque esta clase no tiene dbset porque no te interesa 
     //acceder a las photos de a una como servicio, sino que las tratas como colección)
     [Table("Photos")]
     public class Photo
