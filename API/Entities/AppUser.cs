@@ -41,6 +41,9 @@ namespace API.Entities
         
         public ICollection<UserLike> LikedUsers {get;set;}
 
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
+
         /* este método está haciendo que ne traiga todo y mapee en memoria en lugar de solo traer los campos necesarios
         //AutoMapper se da cuenta que si tiene Get en el nombre lo usa para poblar el Age del DTO
         public int GetAge(){

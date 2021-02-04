@@ -25,7 +25,7 @@ namespace API.Controllers
         }
 
 
-        // no tengo que decirle el [FromBody en la funcion porque se da cuenta, pero mas a delante puede servir eso]
+        // no tengo que decirle el [FromBody] en la funcion porque se da cuenta, pero mas a delante puede servir eso]
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
         {
