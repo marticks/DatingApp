@@ -10,7 +10,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import {PaginationModule} from 'ngx-bootstrap/pagination'
 import { Button } from 'protractor';
 import { TimeagoClock, TimeagoModule } from 'ngx-timeago';
-
+import {ModalModule} from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -25,7 +25,8 @@ import { TimeagoClock, TimeagoModule } from 'ngx-timeago';
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),// el for root es par,entes de angular bootstrap
     ButtonsModule.forRoot(),
-    TimeagoModule.forRoot()
+    TimeagoModule.forRoot(),
+    ModalModule.forRoot()
   ],
   exports:[
     BsDropdownModule,
@@ -36,7 +37,8 @@ import { TimeagoClock, TimeagoModule } from 'ngx-timeago';
     BsDatepickerModule,
     PaginationModule,
     ButtonsModule,
-    TimeagoModule
+    TimeagoModule,
+    ModalModule
   ]
 })
 export class SharedModule { }

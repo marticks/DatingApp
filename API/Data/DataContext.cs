@@ -1,13 +1,16 @@
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<AppUser,AppRole, int, IdentityUserClaim<int>, AppUserRole,
+     IdentityUserLogin<int>,IdentityRoleClaim<int>, IdentityUserToken<int>> 
+    //reemplazas dbContext por esto porque tiene las tablas necesarias para la autenticación
+    //esas tablas van a usar un int como ID
     {
         //recordar que photo no tiene dbset porque no te interesa accederlas independientemente de los usuarios.
-
-        public DbSet<AppUser> Users { get; set; }
         
         public DbSet<UserLike> Likes { get; set; }
 
@@ -21,6 +24,18 @@ namespace API.Data
         protected override void OnModelCreating(ModelBuilder builder){
             //este método es para configurar relaciones y eso
             base.OnModelCreating(builder);
+
+            //configuras la relacion entre AppUSer y UserRoles y entre AppRole y UserRoles... es una N:N
+            builder.Entity<AppUser>().HasMany(ur => ur.UserRoles)
+            .WithOne(u => u.User)
+            .HasForeignKey(ur=> ur.UserId)
+            .IsRequired();
+
+            builder.Entity<AppRole>().HasMany(ur => ur.UserRoles)
+            .WithOne(u => u.Role)
+            .HasForeignKey(ur=> ur.RoleId)
+            .IsRequired();
+
 
             builder.Entity<UserLike>().HasKey(k => new {k.SourceUserId, k.LikedUserId}); 
             // esto es poruqe no le definimos una primary key nosotros

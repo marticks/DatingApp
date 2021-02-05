@@ -47,6 +47,7 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        //[Authorize(Roles = "Member")] Esto es otra manera pero se ve que se utiliza mas policy based.
         [HttpGet("{username}",Name="GetUser")]
         public async Task<ActionResult<MemberDTO>> GetUser(string username)
         {
