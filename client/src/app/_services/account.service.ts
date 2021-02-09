@@ -4,6 +4,7 @@ import { observable, ReplaySubject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AccountService {
   //la convencion que termine con $ es para los observables
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private presenceService: PresenceService) { }
 
 
   login(model: any) {
@@ -22,20 +23,20 @@ export class AccountService {
       const user = response
       if (user) {
         this.setCurrentUser(user)
+        this.presenceService.createHubConnection(user)
       }
     }))
   }
 
   register(model: any) {
     return this.http.post(this.baseUlr + "account/register", model).pipe(
-      map((user:User) => {
-          if(user){
-            this.setCurrentUser(user)
-          }
-          //return user; si retornas esto podes obtener el usuario desde el componente con el que
-          //invocas esta función
+      map((user: User) => {
+        if (user) {
+          this.setCurrentUser(user)
+          this.presenceService.createHubConnection(user)
+        }
       }
-    )
+      )
     )
   }
 
@@ -48,7 +49,7 @@ export class AccountService {
     //con esto te aseguras de trabajar con un arreglo siempre
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles)
 
-    localStorage.setItem("user",JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     this.currentUserSource.next(user)
   }
 
@@ -56,9 +57,10 @@ export class AccountService {
   logout() {
     localStorage.removeItem("user")
     this.currentUserSource.next(null)
+    this.presenceService.stopHubConnection();
   }
 
-  getDecodedToken(token){
+  getDecodedToken(token) {
     return JSON.parse(atob(token.split('.')[1]))
   }
 

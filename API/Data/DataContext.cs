@@ -16,6 +16,10 @@ namespace API.Data
 
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Group> Groups {get;set;}
+
+        public DbSet<Connection> Connections { get; set; }
+
         public DataContext(DbContextOptions options) : base(options)
         {
         }
@@ -25,7 +29,7 @@ namespace API.Data
             //este método es para configurar relaciones y eso
             base.OnModelCreating(builder);
 
-            //configuras la relacion entre AppUSer y UserRoles y entre AppRole y UserRoles... es una N:N
+            //configuras la relacion entre AppUSer y UserRoles y entre AppRole y UserRoles... es una N:N    
             builder.Entity<AppUser>().HasMany(ur => ur.UserRoles)
             .WithOne(u => u.User)
             .HasForeignKey(ur=> ur.UserId)

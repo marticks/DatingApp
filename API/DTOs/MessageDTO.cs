@@ -2,6 +2,7 @@ using System;
 
 namespace API.DTOs
 {
+    //podría nombrarlo DTO para seguir con la misma convención que los otros
     public class MessageDto
     {
         public int Id { get; set; }

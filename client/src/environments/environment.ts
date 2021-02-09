@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:5000/api/"
+  apiUrl: "http://localhost:5000/api/",
+  hubUrl: "http://localhost:5000/hubs/"
+  //si usas https y 5001 falla por un tema de certificado pero creo que es chrome que no valida localhost
 };
 
 /*

@@ -9,6 +9,7 @@ using API.Helpers;
 using API.Interfaces;
 using API.MIddleware;
 using API.Services;
+using API.SignalR;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +48,7 @@ namespace API
             });
 
             services.AddIdentityServices(_config);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +68,10 @@ namespace API
 
             app.UseRouting();
 
-            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+            app.UseCors(policy => policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials() // agregado para signalR
+            .WithOrigins("https://localhost:4200"));
 
             //basicamente puede hacer cualquiera de esas acciones si viene de esa dir, me falla acá asique deshabilito el cors por ahora. tampoco anda
             //.AllowAnyOrigin()); esto es si en algun momento me rompe la pija el cors
@@ -78,6 +83,9 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
+                // basicamente decis que el tema de los websockets los maneja desde ese endpoint, uno por cada hub
             });
         }
     }
