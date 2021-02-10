@@ -30,7 +30,8 @@ namespace API.Helpers
                     src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
 
             //esto hace que cuando se retorne la fecha al cliente, esta tenga una z que especifica que el formato es UTC
-            CreateMap<DateTime,DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc)); 
+            //no es más necesario porque se agregó lo del UTC en el dbContext
+            //CreateMap<DateTime,DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc)); 
         }
     }
 }

@@ -16,9 +16,11 @@ namespace API.Extensions
             services.AddSingleton<PresenceTracker>(); // queres que el mismo sea compartido por todos los requests
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings")); //con esto le decis de donde sacar la configuracion
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ILikesRepository,LikesRepository>();
-            services.AddScoped<IMessageRepository, MessageRepository>();
+            // services.AddScoped<IUserRepository, UserRepository>();
+            // services.AddScoped<ILikesRepository,LikesRepository>();
+            // services.AddScoped<IMessageRepository, MessageRepository>();
+            // se los quita de la inyección de dependenias para crearlos dentro de la UnitOfWork
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<LogUserActivity>();
             
