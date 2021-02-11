@@ -80,11 +80,16 @@ namespace API
 
             app.UseAuthorization();
 
+            app.UseDefaultFiles(); //si hay un index.html usa eso
+
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PresenceHub>("hubs/presence");
                 endpoints.MapHub<MessageHub>("hubs/message");
+                endpoints.MapFallbackToController("Index", "Fallback"); // para que funcione cuando recargas y te manejas por rutas
                 // basicamente decis que el tema de los websockets los maneja desde ese endpoint, uno por cada hub
             });
         }
