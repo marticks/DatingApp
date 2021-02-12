@@ -68,10 +68,10 @@ namespace API
 
             app.UseRouting();
 
-            app.UseCors(policy => policy.AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials() // agregado para signalR
-            .WithOrigins("https://localhost:4200"));
+            app.UseCors(x => x.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .WithOrigins("https://localhost:4200"));
 
             //basicamente puede hacer cualquiera de esas acciones si viene de esa dir, me falla acá asique deshabilito el cors por ahora. tampoco anda
             //.AllowAnyOrigin()); esto es si en algun momento me rompe la pija el cors
